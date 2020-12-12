@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 #include <string>
 #include <cmath>
 #include <vector>
@@ -10,6 +11,9 @@ using namespace std;
 
 class Truba{
 	public:
+        vector<string> id = {"ID_1", "ID_2", "ID_3"};		
+		vector<string> repairs = {"В_ремонте", "Исправна", "Исправна"};
+
 		// добавляем трубу
 		void show(){
 			cout<<"================"<<endl;
@@ -42,7 +46,7 @@ class Truba{
 		        	name = "ID_" + to_string(id.size() + 1);
 				id.push_back(name);
 			}
-			if((scales != "1") or (scales != "2")){
+			if((scales != "1") and (scales != "2")){
 				cout<<"Ошибочка вышла((((((((("<<endl;
 			}
 
@@ -159,18 +163,14 @@ class Truba{
 				}
 			}
 		};
-
-
-
-	
-	private:
-		vector<string> id = {"ID_1", "ID_2", "ID_3"};		
-		vector<string> repairs = {"В_ремонте", "Исправна", "Исправна"};
-
 };
 
 class Ks{
 	public:
+		vector<string> id = {"ID_1", "ID_2", "ID_3"};		
+		vector<double> shop = {10, 0, 20};
+
+
 		// добавляем кс
 		void show(){
 			cout<<"================"<<endl;
@@ -263,14 +263,6 @@ class Ks{
 				}
 			}
 		};
-
-
-	private:
-		vector<string> id = {"ID_1", "ID_2", "ID_3"};		
-		vector<double> shop = {10, 0, 20};
-
-
-
 };
 
 
@@ -339,9 +331,20 @@ int main()
 		}
 	
 		if (sms == "0"){
-			wall == false;
+			wall = false;
 		}
-	
 	}
+                ofstream outf("laba_2_data.txt");
+                outf << "Truba:"<< endl;
+                for(int i = 0; i <= (truba.id.size() - 1); i++){
+                  outf << "id = '" << truba.id[i] <<"' ";
+                  outf << "rep = " << truba.repairs[i] <<endl;
+                };
+                outf << "Ks:" << endl;
+                for(int i = 0; i <= (ks.id.size() - 1); i++){
+                  outf << "id = '" << ks.id[i] <<"' ";
+                  outf << "shop = " << ks.shop[i] << endl;
+                };
+                outf.close();
 
 }
