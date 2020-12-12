@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <fstream>
 using namespace std;
 
 
@@ -237,5 +238,19 @@ int main() {
 
 				};
 
-			}
+			};
+                ofstream outf("laba_1_data.txt");
+                outf << "Truba:"<< endl;
+                for(int i = 0; i <= (schet_t - 1); i++){
+                  outf << "id = '" << id_truba[i] <<"' ";
+                  outf << "l = " << l[i] << " ";
+                  outf << "d = "<< d[i]<<endl;
+                };
+                outf << "Ks:" << endl;
+                for(int i = 0; i <= (schet_k - 1); i++){
+                  outf << "id = '" << id_ks[i] <<"' ";
+                  outf << "ceh = " << ceh[i] << " ";
+                  outf << "jober = "<< jober[i]<<endl;
+                };
+                outf.close(); 
 		};
