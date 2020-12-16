@@ -62,12 +62,10 @@ class Truba{
 			cout<<"Введите ID трубы(необходимо ввести только цифру) = ";
 			cin>>name;
 			cout<<""<<endl;
-			auto iter_1 = id.cbegin();
-			auto iter_2 = repairs.cbegin();
 			for (int i=0; i<=(id.size()-1);i++){
-				if (name == id[i]){
-					id.erase(iter_1 + i - 1);
-					repairs.erase(iter_2 + i - 1);
+				if (("ID_" + name) == id[i]){
+					id.erase(id.cbegin() + i);
+					repairs.erase(repairs.cbegin() + i);
 					break;
 				}
 			}
@@ -209,12 +207,10 @@ class Ks{
 			cout<<"Введите ID кс (необходимо ввести только цифру) = ";
 			cin>>name;
 			cout<<""<<endl;
-			auto iter_1 = id.cbegin();
-			auto iter_2 = shop.cbegin();
 			for (int i=0; i<=(id.size()-1);i++){
-				if (id[i] == name){
-					id.erase(iter_1 + i - 1);
-					shop.erase(iter_2 + i - 1);
+				if (("ID_" + name) == id[i]){
+					id.erase(id.cbegin() + i);
+					shop.erase(shop.cbegin() + i);
 					break;
 				}
 			}

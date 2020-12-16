@@ -7,9 +7,6 @@
 using namespace std;
 
 
-// В public отправляюься все наши функции
-// в Private отправляются все локальные переменные
-
 class Truba{
 	public:
         vector<string> id = {"ID_1", "ID_2", "ID_3"};		
@@ -24,6 +21,7 @@ class Truba{
 				cout<<repairs[i]<<endl;
 			}
 		}
+
 		void add(){
 			
 			cout<<"================"<<endl;
@@ -64,12 +62,10 @@ class Truba{
 			cout<<"Введите ID трубы(необходимо ввести только цифру) = ";
 			cin>>name;
 			cout<<""<<endl;
-			auto iter_1 = id.cbegin();
-			auto iter_2 = repairs.cbegin();
 			for (int i=0; i<=(id.size()-1);i++){
-				if (name == id[i]){
-					id.erase(iter_1 + i - 1);
-					repairs.erase(iter_2 + i - 1);
+				if (("ID_" + name) == id[i]){
+					id.erase(id.cbegin() + i);
+					repairs.erase(repairs.cbegin() + i);
 					break;
 				}
 			}
@@ -169,7 +165,7 @@ class Truba{
 
 class Ks{
 	public:
-		vector<string> id = {"ID_1", "ID_2", "ID_3"};		
+		vector<string> id = {"KS_1", "KS_2", "KS_3"};		
 		vector<double> shop = {10, 0, 20};
 
 
@@ -211,12 +207,10 @@ class Ks{
 			cout<<"Введите ID кс (необходимо ввести только цифру) = ";
 			cin>>name;
 			cout<<""<<endl;
-			auto iter_1 = id.cbegin();
-			auto iter_2 = shop.cbegin();
 			for (int i=0; i<=(id.size()-1);i++){
-				if (id[i] == name){
-					id.erase(iter_1 + i - 1);
-					shop.erase(iter_2 + i - 1);
+				if (("KS_" + id[i]) == name){
+					id.erase(id.cbegin() + i);
+					shop.erase(shop.cbegin() + i);
 					break;
 				}
 			}
@@ -253,7 +247,7 @@ class Ks{
 				cout<<"Введите ID трубы(необходимо ввести только цифру)"<<endl;
 				cin>>scales;
 				cout<<""<<endl;
-				scales = "ID_" + scales;
+				scales = "KS_" + scales;
 
 				for(int i = 0;i<=(id.size()-1);i++){
 					if (scales == id[i]){
@@ -269,20 +263,48 @@ class Ks{
 
 
 
+
+void search_anti_minus(vector<vector<string>>& vec){
+	int kolvo = 0;
+	string minus = "-";
+	vector<string> mas;
+	for(int i = 0; i < vec.size(); i++){
+		for(int j = 0; j < vec[i].size(); j++){
+			
+			if(minus != vec[i][j][0]){
+
+				kolvo++;
+
+			}
+			if(kolvo == (vec[i].size())){
+				mas.push_back(vec[i]);
+
+			}
+		kolvo = 0;
+
+		}
+
+	}
+	return mas;
+
+
+}
+
+
+
+
+
+
+
+
 int main()
 {
-	
 	setlocale(LC_ALL, "rus"); // корректное отображение Кириллицы
-	
+	vector<vector<int>> graf;
 	Truba truba;
 	Ks ks;
 	bool wall = true;
 	string sms;
-    vector<vector<int>> graf;
-    int trubka;
-    int ks_1;
-    int ks_2;
-    bool tru_poc = true;
 
 	while (wall == true){
 		cout<<"================"<<endl;
@@ -337,71 +359,122 @@ int main()
 		if (sms == "9"){
 			ks.show();
 		}
-        if (sms == "10"){ //тута ми задали граф
-            
-            while(tru_poc == true){
-                cout << "Для окончания выбора станций напишите '0'";
-                cout << "Выберите станцию(только цыфра), которую хотите соединить = ";
-                cin >> ks_1;
-                // проверка на использование кс
-				if(cin.fail()){
-					cin.clear();
-					cin.ignore(100000, '\n');
-					cout<<"Mistake\n"<<endl; 
-				}else{
-                    cout << "" << endl;
-                    if(ks_1 == 0){
-                        tru_poc = false;
-                    }else{     
-                    graf[0].push_back(ks_1);
-                    for (int i = 1; i <= (graf[0].size() - 1); i++){
-                        for(int j; j <= (graf[0].size() -1); j++){
-                            graf[i][j] = 0;
-                        }
-                        }
-                    }
-                }
-            }
-            
-            tru_poc = true;
-            while(tru_poc == true){
-                cout << "как будем соединять?" << endl;
-                cout << "Введите трубу которую хотите";
-                cin >> trubka;
-                // проверка на использование трубы
-				if(cin.fail()){
-					cin.clear();
-					cin.ignore(100000, '\n');
-					cout<<"Mistake\n"<<endl; 
-				}else{
-                    cout << "из какой КС будет идти труба";
-                    cin >> ks_1;
-                    cout << "" << endl;
-				    if(cin.fail()){
-					    cin.clear();
-					    cin.ignore(100000, '\n');
-					    cout<<"Mistake\n"<<endl; 
-				    }else{
-                        cout << "в какую будет идти";
-                        cin >> ks_2;
-                        cout << "" << endl;
-			    	    if(cin.fail()){
-				    	    cin.clear();
-					        cin.ignore(100000, '\n');
-					        cout<<"Mistake\n"<<endl; 
-                        }else{
-                            graf[ks_1][ks_2] = truba.l[trubka - 1];
-                        }
-                    }
 
-                }
-            }
-        }
-        if (sms == "11"){
-                    
-        }
+        if (sms == "10"){ // создание вектора
+			
+			vector<vector<string>> graf;
+			vector<string> matrix;
+			string otkuda;
+			string kuda;
+			string t;
+			string bb;
+			bool wall = true;
+			bool wall_1 = false;
+			bool wall_2 = false;
+
+			while(wall == true){
+	
+				for(int i = 0; i < graf.size(); i++){
+
+					for(int j = 0; j < graf[i].size(); j++){
+
+						cout << graf[i][j] << " ";
+					}
+					cout << "" << endl;
+				}
+
+				cout << "Для завершения: 0; Для продолжения: 1 = ";
+				cin >> bb;
+				cout << "" << endl;
+				if(bb == "0"){
+					break;
+				}
+
+				cout << "" << endl;
+				cout << "Откуда Ks_";
+				cin >> otkuda;
+				cout << "" << endl;
+				cout << "Куда Ks_";
+				cin >> kuda;
+
+				if(otkuda == kuda){
+					cout << "Станция сама в себя не может идти" << endl;
+					continue;
+				}
+
+				for(int i = 0; i < ks.id.size(); i++){
+					if(("ID_" + otkuda) == ks.id[i]){
+						wall_1 = true;
+					}
+					if(("ID_" + kuda) == ks.id[i]){
+						wall_2 = true;
+					}
+				}
+
+				if((wall_1 == false) or (wall_2 == false)){
+					cout << "Ошибка при выборе станции" << endl;
+					continue;
+				}
+
+				bool wall_1 = true;
+				bool wall_2 = true;
+				cout << "Truba_";
+				cout << "";
+				cin >> t;
+				cout << "" << endl;
+
+				if(graf.size() == 0){
+					matrix.push_back("KS_" + otkuda);
+					graf.push_back(matrix);
+					matrix.clear();
+					graf[0].push_back("ID_" + t);
+					matrix.push_back("KS_" + kuda);
+					graf.push_back(matrix);
+					graf[1].push_back("-ID_" + t);
+					matrix.clear();
+					continue;
+				}
+
+				for(int i = 0; i < graf.size(); i++){
+
+					if(("ID_" + otkuda) == graf[i][0]){
+						graf[i].push_back("ID_" + t);
+						wall_1 = false;
+						continue;
+					}
+					if(("ID_" + kuda) == graf[i][0]){
+						graf[i].push_back("-ID_" + t);
+						wall_2 = false;
+						continue;
+					}
+
+				}
+				if (wall_1 == true){
+					matrix.push_back("KS_" + otkuda);
+					graf.push_back(matrix);
+					matrix.clear();
+					graf[graf.size() - 1].push_back("ID_" + t);
+				}
+				if (wall_2 == true){
+					matrix.push_back("KS_" + kuda);
+					graf.push_back(matrix);
+					matrix.clear();
+					graf[graf.size() - 1].push_back("-ID_" + t);
+				}
+
+
+			}
+
 
 	
+        }
+
+        if (sms == "11"){ // Топологическая сортировка
+        	vector<string> input;
+        	vector<string> output;
+        	int minus = "-";
+        }
+
 		if (sms == "0"){
 			wall = false;
 		}
@@ -418,5 +491,6 @@ int main()
                 };
                 outf.close();
 
-}
+	}
+
 }
